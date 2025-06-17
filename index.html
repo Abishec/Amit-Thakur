@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Amit Kumar Thakur - General Medicine</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- A fallback for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Dr. Amit K. Thakur</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#blog">Health Blog</a></li>
+                <li><a href="#consult">Consultation</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content">
+                <img src="https://media.licdn.com/dms/image/C4D03AQF0Lw8q3tLh9A/profile-displayphoto-shrink_800_800/0/1653839215201?e=1730534400&v=beta&t=U-Wq_j_8QY_7m4W6N3K8Z9fG9k6jX8vY5c4z7p2m3o0" alt="Dr. Amit Kumar Thakur" class="profile-pic">
+                <h1>Dr. Amit Kumar Thakur</h1>
+                <p class="specialty">MBBS, General Medicine</p>
+                <p class="tagline">Providing accessible health education and guidance for a healthier Nepal.</p>
+                <div class="social-icons">
+                    <a href="https://www.youtube.com/@dramitslectures" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.linkedin.com/in/dr-amit-kumar-thakur-2881a2183/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/dr.npl.tagore/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/amit.kumar.thakur.968277/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-container">
+                <div class="about-text">
+                    <p>Dr. Amit Kumar Thakur is a dedicated general physician from Nepal, holding an MBBS degree. Passionate about health education, he regularly shares insightful medical content on YouTube and social media to make healthcare more accessible to everyone. Fluent in English, Nepali, Hindi, and Maithili, Dr. Thakur aims to connect with a diverse audience across the region.</p>
+                    <ul>
+                        <li><i class="fas fa-graduation-cap"></i> <strong>Degree:</strong> MBBS</li>
+                        <li><i class="fas fa-stethoscope"></i> <strong>Specialty:</strong> General Medicine</li>
+                        <li><i class="fas fa-language"></i> <strong>Languages:</strong> English, Nepali, Hindi, Maithili</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Blog Section -->
+        <section id="blog">
+            <h2>Latest Health Blogs & Videos</h2>
+            <div id="blog-container">
+                <div class="loader">Loading posts...</div>
+                <!-- Blog posts will be injected here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Free Consultation Section -->
+        <section id="consult">
+            <h2>Free Consultation</h2>
+            <p class="consult-subtext">Fill out the form below, and click the button to send your query directly to me on WhatsApp.</p>
+            <form id="consultation-form">
+                <input type="text" id="patient-name" placeholder="Your Full Name" required>
+                <input type="number" id="patient-age" placeholder="Your Age" required>
+                <textarea id="health-issue" rows="4" placeholder="Briefly describe your health issue" required></textarea>
+                <button type="submit" class="cta-button">
+                    <i class="fab fa-whatsapp"></i> Send via WhatsApp
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer id="contact">
+        <p>&copy; 2024 Dr. Amit Kumar Thakur. All Rights Reserved.</p>
+        <div class="footer-contact">
+            <p><i class="fab fa-whatsapp"></i> +977 970-8163535</p>
+            <p>Connect with me on social media for daily health tips!</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
