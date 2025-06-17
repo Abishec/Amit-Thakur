@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- BLOG LOADER ---
-    // THIS IS THE CORRECT, UPDATED LINK FOR YOUR GOOGLE SHEET.
+    // This is the correct, working link for your Google Sheet.
     const blogSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT07wSm0WbPJ8aS4u37kzF3H5RKcrvHl6HyNglXnOgrK4zTuAE4GUWoSKl5p73Td9BWjuVFBvNwDTPl/pub?output=csv';
     const blogContainer = document.getElementById('blog-container');
 
-    // Simple fetch function to bypass aggressive caching
+    // Fetch with a cache-busting parameter
     fetch(blogSheetUrl + '&t=' + new Date().getTime())
         .then(response => {
             if (!response.ok) {
@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.text();
         })
         .then(csvText => {
-            // Trim whitespace from the text to handle empty files properly
             csvText = csvText.trim();
             const rows = csvText.split('\n').slice(1); // Split into rows and remove header
             blogContainer.innerHTML = ''; // Clear the 'Loading...' message
@@ -24,9 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            rows.reverse().forEach(row => { // Reverse to show latest posts first
-                // A more robust way to handle commas inside content
-                const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g).map(col => col.replace(/"/g, ''));
+            rows.reverse().forEach(row => { 
+                const columns = row.split(','); // Simplified for your current sheet
                 
                 const postDate = columns[0] ? columns[0].trim() : '';
                 const postTitle = columns[1] ? columns[1].trim() : '';
@@ -66,14 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error('Error fetching blog posts:', error);
-            blogContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Could not load blog posts at the moment. Please try again later.</p>';
+            blogContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Could not load blog posts. Please try again later.</p>';
         });
 
     // --- WHATSAPP CONSULTATION FORM ---
     const consultationForm = document.getElementById('consultation-form');
     consultationForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const name = document.getElementById('patient-name').value;
         const age = document.getElementById('patient-age').value;
         const issue = document.getElementById('health-issue').value;
@@ -83,15 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
         window.open(whatsappUrl, '_blank');
     });
 
-    // Helper function to extract YouTube video ID from various URL formats
     function getYouTubeID(url) {
         let ID = '';
-        url = url.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-        if (url[2] !== undefined) {
-            ID = url[2].split(/[^0-9a-z_\-]/i);
-            ID = ID[0];
-        } else {
-            ID = url;
+        if (url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            if (match && match[2].length === 11) {
+                ID = match[2];
+            }
         }
         return ID;
     }
