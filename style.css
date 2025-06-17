@@ -69,7 +69,106 @@ h2 { font-size: 2.2rem; }
 #consultation-form textarea { resize: vertical; }
 .cta-button { background-color: #25D366; color: white; border: none; padding: 1rem; border-radius: 5px; font-size: 1.1rem; font-weight: 700; font-family: var(--heading-font); cursor: pointer; transition: background-color 0.3s, transform 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
 .cta-button:hover { background-color: #128C7E; transform: scale(1.02); }
-footer { background-color: var(--primary-color); color: var(--white-color); text-align: center; padding: 2rem 5%; }
+footer { background-color: var(--primary-color); /* --- Enhanced About Section & Timeline Styles --- */
+#about {
+    background-color: var(--white-color);
+}
+
+.about-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.about-text h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-family: var(--heading-font);
+}
+
+.timeline-container {
+    position: relative;
+    padding-left: 2rem;
+    border-left: 3px solid var(--secondary-color);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.75rem;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--white-color);
+    border: 3px solid var(--secondary-color);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-year {
+    position: absolute;
+    left: -7rem;
+    top: 3px;
+    font-weight: 700;
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    width: 4rem;
+    text-align: right;
+}
+
+.timeline-content h4 {
+    font-family: var(--heading-font);
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.timeline-content p {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 0.2rem;
+}
+
+/* --- Responsive adjustments for the timeline --- */
+@media (max-width: 992px) {
+    .about-grid-container {
+        grid-template-columns: 1fr;
+    }
+    .timeline-container {
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .timeline-year {
+        position: static;
+        left: auto;
+        top: auto;
+        text-align: left;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    .timeline-container {
+        padding-left: 1.5rem;
+        border-left-width: 2px;
+    }
+    .timeline-item::before {
+        left: -2.2rem;
+        width: 15px;
+        height: 15px;
+    }
+}color: var(--white-color); text-align: center; padding: 2rem 5%; }
 .footer-contact { margin-top: 1rem; }
 .footer-contact p { margin-bottom: 0.5rem; }
 @media (max-width: 768px) { .nav-links { display: none; } h1 { font-size: 2rem; } h2 { font-size: 1.8rem; } }
