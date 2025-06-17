@@ -25,8 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (!postTitle) return;
 
+                // --- NEW: Create a unique ID for each blog post ---
+                const postId = postTitle.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+
                 const card = document.createElement('div');
                 card.className = 'blog-card';
+                card.id = postId; // Assign the unique ID to the card
 
                 let videoEmbedHtml = '';
                 if (videoUrl) {
@@ -36,14 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                const websiteUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+                // --- NEW: Create a specific URL for this post ---
+                const websiteUrl = window.location.origin + window.location.pathname;
+                const postUrl = websiteUrl + '#' + postId; // This is the direct link to the blog post
                 const shareText = `Check out this health tip from Dr. Amit Kumar Thakur: *${postTitle}*`;
 
                 const shareButtonsHtml = `
                     <div class="share-buttons">
-                        <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + websiteUrl)}" target="_blank" class="share-btn whatsapp"><i class="fab fa-whatsapp"></i> Share</a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(websiteUrl)}" target="_blank" class="share-btn facebook"><i class="fab fa-facebook"></i> Share</a>
-                        <button class="share-btn copy-link"><i class="fas fa-copy"></i> Copy Link</button>
+                        <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + postUrl)}" target="_blank" class="share-btn whatsapp"><i class="fab fa-whatsapp"></i> Share</a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}" target="_blank" class="share-btn facebook"><i class="fab fa-facebook"></i> Share</a>
+                        <button class="share-btn copy-link" data-link="${postUrl}"><i class="fas fa-copy"></i> Copy Link</button>
                     </div>
                 `;
 
@@ -61,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const copyButton = card.querySelector('.copy-link');
                 copyButton.addEventListener('click', () => {
-                    navigator.clipboard.writeText(websiteUrl).then(() => {
+                    const linkToCopy = copyButton.getAttribute('data-link');
+                    navigator.clipboard.writeText(linkToCopy).then(() => {
                         copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
                         setTimeout(() => {
                             copyButton.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
