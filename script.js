@@ -1,35 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- BLOG LOADER ---
-    // This is the link to YOUR Google Sheet. Make sure it's "Published to the web" as a CSV.
-    const blogSheetUrl = 'https://docs.google.com/spreadsheets/d/12lvQ4-d4zkHGk9FVaB06WC0EG5YpUAfR4sfMYCSWTZw/pub?output=csv';
+    // THIS IS THE CORRECT, UPDATED LINK FOR YOUR GOOGLE SHEET.
+    const blogSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT07wSm0WbPJ8aS4u37kzF3H5RKcrvHl6HyNglXnOgrK4zTuAE4GUWoSKl5p73Td9BWjuVFBvNwDTPl/pub?output=csv';
     const blogContainer = document.getElementById('blog-container');
 
-    fetch(blogSheetUrl)
-        .then(response => response.text())
+    // Simple fetch function to bypass aggressive caching
+    fetch(blogSheetUrl + '&t=' + new Date().getTime())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
         .then(csvText => {
+            // Trim whitespace from the text to handle empty files properly
+            csvText = csvText.trim();
             const rows = csvText.split('\n').slice(1); // Split into rows and remove header
             blogContainer.innerHTML = ''; // Clear the 'Loading...' message
 
             if (rows.length === 0 || (rows.length === 1 && rows[0].trim() === '')) {
-                blogContainer.innerHTML = '<p>No blog posts yet. Check back soon!</p>';
+                blogContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">No blog posts yet. Dr. Amit will be adding content soon!</p>';
                 return;
             }
             
             rows.reverse().forEach(row => { // Reverse to show latest posts first
-                const columns = row.split(',');
-                // CSV columns: Date,Title,Content,VideoURL,ImageURL
+                // A more robust way to handle commas inside content
+                const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g).map(col => col.replace(/"/g, ''));
+                
                 const postDate = columns[0] ? columns[0].trim() : '';
                 const postTitle = columns[1] ? columns[1].trim() : '';
                 const postContent = columns[2] ? columns[2].trim() : '';
                 const videoUrl = columns[3] ? columns[3].trim() : '';
+
+                if (!postTitle) return; // Skip empty rows
 
                 const card = document.createElement('div');
                 card.className = 'blog-card';
 
                 let videoEmbedHtml = '';
                 if (videoUrl) {
-                    // Convert standard YouTube URL to embeddable URL
                     const videoId = getYouTubeID(videoUrl);
                     if (videoId) {
                         videoEmbedHtml = `
@@ -56,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error('Error fetching blog posts:', error);
-            blogContainer.innerHTML = '<p>Could not load blog posts. Please try again later.</p>';
+            blogContainer.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Could not load blog posts at the moment. Please try again later.</p>';
         });
 
     // --- WHATSAPP CONSULTATION FORM ---
@@ -67,16 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = document.getElementById('patient-name').value;
         const age = document.getElementById('patient-age').value;
         const issue = document.getElementById('health-issue').value;
-
-        // The doctor's WhatsApp number (country code without '+')
         const doctorWhatsAppNumber = '9779708163535';
-
         const message = `*Free Consultation Request*\n\n*Name:* ${name}\n*Age:* ${age}\n*Health Issue:* ${issue}\n\n_Sent from the website._`;
-
-        // Create the WhatsApp link
         const whatsappUrl = `https://wa.me/${doctorWhatsAppNumber}?text=${encodeURIComponent(message)}`;
-
-        // Open the link in a new tab
         window.open(whatsappUrl, '_blank');
     });
 
